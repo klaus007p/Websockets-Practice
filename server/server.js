@@ -2,7 +2,7 @@ import express from "express";
 import { Server } from "socket.io";
 import { createServer } from 'http';
 import cors from "cors";
-import { log } from "console";
+
 
 const port = 3000;
 
@@ -34,16 +34,16 @@ app.get("/", (req, res) => {
 io.on("connection", (socket) => {
     console.log(`A User connected`,  socket.id);
 
-    socket.on("message", (data) => {
-        console.log(data);
-        socket.broadcast.emit("recieve message", data)
+    socket.on("message", ({ room, message }) => {
+        console.log({ message, room });
+        io.to(room).emit("recieve message", message)
     })
 
 
 
-    // socket.on("disconnect", () => {
-    //     console.log("A user disconnected", socket.id);
-    // })
+    socket.on("disconnect", () => {
+        console.log("A user disconnected", socket.id);
+    })
 
     // socket.emit("welcome",`Welcome to the server`)
     // socket.broadcast.emit("welcome",`${socket.id} joined the server ,${socket.id}`)
