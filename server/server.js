@@ -36,7 +36,11 @@ io.on("connection", (socket) => {
 
     socket.on("message", ({ room, message }) => {
         console.log({ message, room });
-        io.to(room).emit("recieve message", message)
+        socket.to(room).emit("recieve message", message)
+    })
+
+    socket.on('join-room',(room) => {
+        socket.join(room)
     })
 
 
