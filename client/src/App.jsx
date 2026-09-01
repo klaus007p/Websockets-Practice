@@ -6,8 +6,10 @@ import { useMemo } from 'react';
 
 function App() {
   // const [count, setCount] = useState(0)
-  const socket = useMemo(() => io("http://localhost:3000"), []);
- 
+  const socket = useMemo(() => io("http://localhost:3000",{
+    withCredentials: true
+  }), []);
+
   const [messages, setMessages] = useState([]);
 
   const [message, setMessage] = useState("");
